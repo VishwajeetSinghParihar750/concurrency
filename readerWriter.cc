@@ -11,11 +11,13 @@ const int maxReaders = 100000;
 
 auto q = std::queue<int>();
 
+auto writerMutex = std::counting_semaphore<1>(1);
 auto noReaderLeft = std::counting_semaphore<1>(1);
 auto readerMutex = std::counting_semaphore<1>(1);
 
 void reader()
 {
+    writerMutex.acquire();
     readerMutex.acquire();
 
     if (readers == 0)
@@ -24,6 +26,7 @@ void reader()
     readers++;
 
     readerMutex.release();
+    writerMutex.release();
 
     // critical
 
@@ -36,12 +39,14 @@ void reader()
 }
 void writer()
 {
+    writerMutex.acquire();
 
     noReaderLeft.acquire();
+    noReaderLeft.release();
 
     // critical
 
-    noReaderLeft.release();
+    writerMutex.release();
 }
 
 int main()
