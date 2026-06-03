@@ -7,7 +7,7 @@
 const int producers = 1;
 const int consumers = 1;
 
-const long long maxLimit = 100;
+const long long maxLimit = 10;
 
 auto q = std::queue<int>();
 
@@ -27,12 +27,12 @@ void consumer()
         std::cout << "consumer 2" << std::endl;
         mutex.acquire();
 
-        std::cout << "consumer 3" << std::endl;
+        // std::cout << "consumer 3" << std::endl;
         auto f = q.front();
         q.pop();
-        std::cout << q.size() << " popped : " << f << std::endl;
+        // std::cout << q.size() << " popped : " << f << std::endl;
 
-        std::cout << "consumer 4" << std::endl;
+        // std::cout << "consumer 4" << std::endl;
         mutex.release();
 
         std::cout << "consumer 5" << std::endl;
@@ -52,11 +52,11 @@ void producer()
         std::cout << "producer 2" << std::endl;
         mutex.acquire();
 
-        std::cout << "producer 3" << std::endl;
+        // std::cout << "producer 3" << std::endl;
         auto f = int(rand() % 2394092);
         q.push(f);
-        std::cout << q.size() << " pushed : " << f << std::endl;
-        std::cout << "producer 4" << std::endl;
+        // std::cout << q.size() << " pushed : " << f << std::endl;
+        // std::cout << "producer 4" << std::endl;
 
         mutex.release();
 
